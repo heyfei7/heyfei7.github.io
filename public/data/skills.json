@@ -1,0 +1,79 @@
+{
+    "skills": [
+        {
+            "name": "Python",
+            "type": "backend",
+            "level": 4
+        },
+        {
+            "name": "C++",
+            "type": "backend",
+            "level": 5
+        },
+        {
+            "name": "C",
+            "type": "backend",
+            "level": 4
+        },
+        {
+            "name": "Clojure",
+            "type": "backend",
+            "level": 5
+        },
+        {
+            "name": "SQL",
+            "type": "database",
+            "level": 4
+        },
+        {
+            "name": "Postgres",
+            "type": "database",
+            "level": 4
+        },
+        {
+            "name": "SQLServer",
+            "type": "database",
+            "level": 3
+        },
+        {
+            "name": "JavaScript",
+            "type": "frontend",
+            "level": 4
+        },
+        {
+            "name": "React",
+            "type": "frontend",
+            "level": 3
+        },
+        {
+            "name": "Bootstrap",
+            "type": "frontend",
+            "level": 5
+        },
+        {
+            "name": "jQuery",
+            "type": "frontend",
+            "level": 4
+        },
+        {
+            "name": "Ant Design",
+            "type": "frontend",
+            "level": 4
+        },
+        {
+            "name": "Mac",
+            "type": "os",
+            "level": 5
+        },
+        {
+            "name": "Windows",
+            "type": "os",
+            "level": 4
+        },
+        {
+            "name": "Linux",
+            "type": "os",
+            "level": 5
+        }
+    ]
+}
