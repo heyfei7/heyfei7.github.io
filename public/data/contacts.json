@@ -1,0 +1,26 @@
+{
+    "contacts": [
+        {
+            "title": "E-Mail",
+            "value": "feidong1998@gmail.com",
+            "icon": "Envelope"
+        },
+        {
+            "title": "Phone",
+            "value": "(647) 233-3048",
+            "icon": "TelephoneFill"
+        },
+        {
+            "title": "LinkedIn",
+            "value": "@heyfei7",
+            "link": "https://www.linkedin.com/in/heyfei7",
+            "icon": "Linkedin"
+        },
+        {
+            "title": "GitHub",
+            "value": "@heyfei7",
+            "link": "https://github.com/heyfei7",
+            "icon": "Github"
+        }
+    ]
+}

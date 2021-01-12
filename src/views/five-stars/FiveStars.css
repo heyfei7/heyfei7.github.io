@@ -1,0 +1,11 @@
+.five-stars.section {
+    border: none;
+}
+
+.five-stars.section > .card-header {
+    border: none;
+}
+
+.five-stars.section > .card-body {
+    border: none;
+}
