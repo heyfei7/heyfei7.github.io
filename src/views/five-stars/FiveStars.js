@@ -10,7 +10,49 @@ import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card'
 
-function Header(props) {
+function ToggleSection(props) {
+    const [show, setShow] = useState(true);
+    return (
+        <Card
+            id={props.id}
+            className="five-stars section toggle-section">
+            <Card.Header
+                className="text-center pointer"
+                onClick={() => setShow(!show)}
+                aria-controls={props.id + "-body"}
+                aria-expanded={show}>
+                {props.title + " "}
+                {show && <CaretUpFill />}
+                {!show && <CaretDownFill />}
+            </Card.Header>
+            <Collapse in={show}>
+                <Card.Body id={props.id + "body"}>
+                    {props.children}
+                </Card.Body>
+            </Collapse>
+        </Card>
+    )
+}
+
+function Section(props) {
+    return (
+        <Card
+            id={props.id}
+            className="five-stars section">
+            <Card.Header
+                className="text-center">
+                <Row>
+                    <Col xs={12}>{props.title}</Col>
+                </Row>
+            </Card.Header>
+            <Card.Body id={props.id + "body"}>
+                {props.children}
+            </Card.Body>
+        </Card >
+    )
+}
+
+function AboutMe(props) {
     return (
         <Card id="about-me" className="five-stars section">
             <Card.Header>
@@ -35,42 +77,6 @@ function Header(props) {
     )
 }
 
-function ToggleSection(props) {
-    const [show, setShow] = useState(false);
-    return (
-        <Card
-            id={props.id}
-            className="five-stars section toggle-section">
-            <Card.Header
-                className="text-center pointer">
-                <Row
-                    onClick={() => setShow(!show)}
-                    aria-controls={props.id + "-body"}
-                    aria-expanded={show}>
-                    <Col xs={9}>{props.title}</Col>
-                    <Col xs={3}>
-                        {show && <CaretUpFill />}
-                        {!show && <CaretDownFill />}
-                    </Col>
-                </Row>
-            </Card.Header>
-            <Collapse in={show}>
-                <Card.Body id={props.id + "body"}>
-                    {props.children}
-                </Card.Body>
-            </Collapse>
-        </Card>
-    )
-}
-
-function AboutMe(props) {
-    return (
-        <ToggleSection id="about-me" title="About Me">
-            <div>lorem ipsum</div>
-        </ToggleSection>
-    )
-}
-
 function Experience(props) {
     const ExpItem = (item) => {
         console.log("helloworld?");
@@ -91,7 +97,7 @@ function Experience(props) {
     }
 
     return (
-        <ToggleSection id="my-experience" title="Experience">
+        <Section id="my-experience" title="Experience">
             <Carousel>
                 {
                     props.experience &&
@@ -99,10 +105,9 @@ function Experience(props) {
                     props.experience.map(ExpItem)
                 }
             </Carousel>
-        </ToggleSection>
+        </Section>
     )
 }
-
 
 function MySkills(props) {
     const [state, setState] = useState({ "frontend": true, "backend": true, "os": false, "others": false, "database": false });
@@ -187,7 +192,6 @@ function ContactMe(props) {
 function FiveStarsView(props) {
     return (
         <Container>
-            <Header />
             <AboutMe />
             <Experience experience={props.data.experience} />
             <MySkills skills={props.data.skills} />

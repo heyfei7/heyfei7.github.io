@@ -1,9 +1,21 @@
 {
-    "experience": [
+    "work": [
         {
             "company": "Workflow International",
             "title": "Software Developer",
             "time": "May 2018 - August 2018"
+        }
+    ],
+    "publications": [],
+    "education": [
+        {
+            "institution": "University of Waterloo",
+            "degree": "Bachelor of Computer Science",
+            "programs": [
+                "Computer Science Major",
+                "English Minor"
+            ],
+            "time": "September 2016 - June 2021"
         }
     ]
 }

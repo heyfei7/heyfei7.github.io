@@ -1,7 +1,7 @@
 import './App.css';
 
 // Views
-import { getData } from './common/util';
+import { views, getData } from './common/util';
 import DefaultView from "./views/default/Default"
 import FiveStarsView from "./views/five-stars/FiveStars"
 
@@ -9,16 +9,27 @@ import FiveStarsView from "./views/five-stars/FiveStars"
 import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { DropdownButton } from 'react-bootstrap';
 
 function ViewToggle(props) {
   return (
-    <Dropdown >
+    <Dropdown drop="up" id="view-toggle">
       <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-        View
+        Change Design
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={() => props.setView("default")}>Default</Dropdown.Item>
-        <Dropdown.Item onClick={() => props.setView("five-stars")}>Five Stars</Dropdown.Item>
+        {
+          views.map((view) => {
+            return (
+              <Dropdown.Item
+                key={view.key}
+                active={props.view == view.key}
+                onClick={() => props.setView(view.key)}>
+                {view.name}
+              </Dropdown.Item>
+            )
+          })
+        }
       </Dropdown.Menu>
     </Dropdown>
   )
@@ -31,6 +42,7 @@ function App() {
     getData("contacts.json", (contacts) => {
       getData("experience.json", (exp) => {
         getData("skills.json", (skills) => {
+          skills.skills.sort((a, b) => { return b.level - a.level });
           setData(Object.assign(contacts, exp, skills));
         })
       })
@@ -40,6 +52,7 @@ function App() {
   useEffect(() => { getAllData(); }, []);
   return (
     <Container className="p-3">
+      <ViewToggle view={view} setView={setView} />
       {
         (view == "default" && <DefaultView data={data} />) ||
         (view == "five-stars" && <FiveStarsView data={data} />)

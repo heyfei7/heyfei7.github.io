@@ -23,4 +23,9 @@ function getIcon(name) {
     }
 }
 
-export { getData, getIcon };
+var views = [
+    { key: "default", name: "Default" },
+    { key: "five-stars", name: "Five Stars" }
+]
+
+export { getData, getIcon, views };
