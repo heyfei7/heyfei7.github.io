@@ -1,5 +1,8 @@
 import './App.css';
-import { getJSON, getText, getHTML } from './common/util';
+import { getJSON, getText } from './common/util';
+
+// React
+import { animateScroll as scroll } from "react-scroll";
 
 // Views
 import OrangeStoreView from "./views/orange-store/OrangeStore"
@@ -8,6 +11,13 @@ import DianaView from "./views/diana/Diana"
 // React-Bootstrap
 import React, { useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { ArrowBarUp } from 'react-bootstrap-icons';
+import { Button, ButtonGroup } from 'react-bootstrap';
+
+var views = {
+  "orange-store": { name: "Orange Store" },
+  "diana": { name: "Diana" }
+}
 
 function ViewToggle(props) {
   return (
@@ -17,12 +27,12 @@ function ViewToggle(props) {
       </Dropdown.Toggle>
       <Dropdown.Menu>
         {
-          views.map((view) => {
+          Object.entries(views).map(([key, view]) => {
             return (
               <Dropdown.Item
-                key={view.key}
-                active={props.view == view.key}
-                onClick={() => props.setView(view.key)}>
+                key={key}
+                active={props.view == key}
+                href={"#" + key}>
                 {view.name}
               </Dropdown.Item>
             )
@@ -33,13 +43,27 @@ function ViewToggle(props) {
   )
 }
 
-var views = [
-  { key: "orange-store", name: "Orange Store" },
-  { key: "diana", name: "Diana" }
-]
+function ScrollTop(props) {
+  const [show, setShow] = useState(false)
+  window.addEventListener("scroll", () => { setShow(window.pageYOffset > 200); });
+
+  return (
+    <Button id="scroll-top"
+      className={"mobile-only" + (show ? "" : " display-none")}
+      onClick={() => { scroll.scrollToTop(); }}>
+      <ArrowBarUp />
+    </Button>
+  )
+}
 
 function App() {
-  const [view, setView] = useState("diana");
+
+  const getHash = () => {
+    const href = window.location.href;
+    return href.substr(href.indexOf("#") + 1);
+  }
+  const [view, setView] = useState(getHash());
+  window.addEventListener("hashchange", () => { setView(getHash()); });
 
   const [data, setData] = useState({});
   const getData = async () => {
@@ -58,10 +82,13 @@ function App() {
 
   return (
     <div>
-      <ViewToggle view={view} setView={setView} />
+      <ButtonGroup id="sticky-buttons">
+        {window.pageYOffset > 100 && <ScrollTop />}
+        <ViewToggle view={view} />
+      </ButtonGroup>
       {
         (view == "orange-store" && <OrangeStoreView data={data} />) ||
-        (view == "diana" && <DianaView data={data} />)
+        (<DianaView data={data} />)
       }
     </div>
   );

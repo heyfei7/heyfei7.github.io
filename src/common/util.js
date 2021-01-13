@@ -1,3 +1,5 @@
+import { version } from "../../package.json"
+
 // React-Bootstrap
 import { Envelope, Github, Linkedin, TelephoneFill } from 'react-bootstrap-icons';
 import $ from 'jquery'
@@ -53,5 +55,10 @@ function getBootstrapDeviceSize() {
     return $('#users-device-size').find('div:visible').first().attr('id');
 }
 
+const siteData = {
+    version: version,
+    copyright: "Copyright 2021",
+    owner: "Fei Dong"
+}
 
-export { getJSON, getText, getHTML, getIcon, getImageSource, getBootstrapDeviceSize };
+export { getJSON, getText, getHTML, getIcon, getImageSource, getBootstrapDeviceSize, siteData };

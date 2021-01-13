@@ -1,19 +1,17 @@
 import "./Diana.css"
-import { getImageSource, getBootstrapDeviceSize, getIcon } from '../../common/util'
+import { getImageSource, getIcon, siteData } from '../../common/util'
 
 // React
 import { useState } from 'react';
-import { useMediaQuery } from 'react-responsive'
+import { Link } from "react-scroll";
 
 // React Bootstrap
-import { Row, Col, Carousel, Navbar, Nav } from 'react-bootstrap';
-import { StarFill } from 'react-bootstrap-icons';
+import { Row, Col, Carousel, Navbar, Nav, Badge } from 'react-bootstrap';
+import { ArrowLeftCircleFill, ArrowRightCircleFill, StarFill } from 'react-bootstrap-icons';
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
-
-const mobileQuery = { query: '(max-width: 750px)' };
 
 function getStars(n) {
     const range = [...Array(n).keys()];
@@ -25,7 +23,6 @@ function getStars(n) {
 }
 
 function MyGallery(props) {
-    const isMobile = useMediaQuery(mobileQuery);
     const [source, setSource] = useState("icon.jpeg")
 
     const images = ["icon.jpeg", "Hiking3.jpg", "Shanghai1.JPG", "Hiking4.jpg", "WonderCon2.JPG"]
@@ -44,7 +41,10 @@ function MyGallery(props) {
     return (
         <Container className="gallery">
             <Row className='mobile-only'>
-                <Carousel style={{ width: "100%" }}>
+                <Carousel
+                    style={{ width: "100%" }}
+                    nextIcon={<ArrowRightCircleFill />}
+                    prevIcon={<ArrowLeftCircleFill />}>
                     {images.map((src) => {
                         return (
                             <Carousel.Item key={src}>
@@ -86,8 +86,8 @@ function MyDetails(props) {
     }
 
     return (
-        <Container>
-            <div className="h-divider" />
+        <Container id="about-me">
+            <div className="laptop-only h-divider" />
             {Object.entries(data).map(([key, value]) => {
                 return (
                     <Row key={key}>
@@ -96,10 +96,9 @@ function MyDetails(props) {
                     </Row>
                 )
             })}
-            <div className="h-divider" />
-            <h2>About Me</h2>
+            <div className="laptop-only h-divider" />
+            <h2 className="mt-3">About Me</h2>
             <p>{props.data.aboutme}</p>
-
         </Container>
     )
 }
@@ -108,21 +107,19 @@ function ContactMe(props) {
     const buttons = props.contacts &&
         props.contacts.length > 0 &&
         props.contacts.map(contact => {
-            if (contact.link) {
-                return (
-                    <Button key={contact.title} className="secondary-bg" href={contact.link} block>
-                        {getIcon(contact.icon)}
-                        {" " + contact.title}
-                    </Button>
-                )
-            }
+            return (
+                <Button key={contact.title} className="secondary-bg secondary-border hover" href={contact.link} block>
+                    {getIcon(contact.icon)}
+                    {" " + contact.title}
+                </Button>
+            )
         });
     return (
-        <div>
+        <div id="contact-me">
             <Card className="laptop-only">
                 <Card.Body>{buttons}</Card.Body>
             </Card>
-            <div className="mobile-only">{buttons}</div>
+            <div className="mobile-only m-3">{buttons}</div>
         </div>
     )
 }
@@ -137,7 +134,7 @@ function MySkills(props) {
         )
     }
     return (
-        <Container>
+        <Container id="my-skills">
             <h2>Skills</h2>
             {
                 props.skills &&
@@ -151,15 +148,43 @@ function MySkills(props) {
 function MyWork(props) {
     const getWork = (work) => {
         return (
-            <Row key={work.title}>
-                <Col md={6}>{work.title}</Col>
-                <Col md={6}>{work.company}</Col>
-            </Row>
+            <Container key={work.title + work.company} className="work-section mt-3 mb-3">
+                <Row>
+                    <Col xs={1}><Image className="work-company-icon" src={getImageSource(work.icon)} roundedCircle /></Col>
+                    <Col xs={8} className="work-header pl-4">
+                        <div>
+                            <span className="work-title">{work.title}</span>
+                            <span className="work-company">{" @" + work.company}</span>
+                        </div>
+                        <div className="work-duration">{work.startTime + " ~ " + work.endTime}</div>
+                        <ul className="work-desc-container pl-3 mb-0">
+                            {work.description &&
+                                work.description.length > 0 &&
+                                work.description.map((desc, index) => {
+                                    return (
+                                        <li key={index} className="work-desc">{desc}</li>
+                                    )
+                                })}
+                        </ul>
+                    </Col>
+                    <Col xs={12} md={3} className="work-stack">
+                        {work.stack &&
+                            work.stack.length > 0 &&
+                            work.stack.map((skill, index) => {
+                                return (
+                                    <Badge key={index} className="work-skill pointer secondary-bg hover mr-1">{skill}</Badge>
+                                )
+                            })}
+                    </Col>
+                </Row>
+                <Row>
+                </Row>
+            </Container>
         )
     }
 
     return (
-        <Container>
+        <Container id="my-work">
             <h2>Experience</h2>
             {
                 props.work &&
@@ -171,19 +196,47 @@ function MyWork(props) {
 }
 
 function Header(props) {
+    const sections = [
+        {
+            "id": "contact-me",
+            "name": "Contact Me",
+            "mobileOnly": true
+        },
+        {
+            "id": "about-me",
+            "name": "About Me",
+            "mobileOnly": true
+        },
+        {
+            "id": "my-work",
+            "name": "My Work",
+            "mobileOnly": false
+        },
+        {
+            "id": "my-skills",
+            "name": "My Skills",
+            "mobileOnly": false
+        }
+    ]
+
     return (
         <Navbar
             collapseOnSelect
             className="primary-bg" expand="lg" variant="dark"
-            style={{ "margin-bottom": "15px" }}>
+            style={{ "marginBottom": "15px" }}>
             <Navbar.Brand href="#home">Fei Dong</Navbar.Brand>
             <Navbar.Toggle aria-controls="diana-view-navbar-nav" />
             <Navbar.Collapse id="diana-view-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="#features">About Me</Nav.Link>
-                    <Nav.Link href="#features">My Work</Nav.Link>
-                    <Nav.Link href="#pricing">My Skills</Nav.Link>
-                    <Nav.Link href="#pricing">Contact Me</Nav.Link>
+                    {sections.map((section, index) => {
+                        return (
+                            <Navbar.Text key={index} className="nav-link mobile-only">
+                                <Link className="pointer" to={section.id} spy={true} smooth={true} offset={-25} duration={500}>
+                                    {section.name}
+                                </Link>
+                            </Navbar.Text>
+                        )
+                    })}
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
@@ -192,20 +245,26 @@ function Header(props) {
 
 function Footer(props) {
     return (
-        <Container>whoop</Container>
+        <Container fluid className="p-0 mt-3">
+            <div className="fifth-bg p-3"></div>
+            <div className="primary-bg p-3 text-center text-light">
+                <div>{"Site Version " + siteData.version}</div>
+                <div>{siteData.copyright + " © " + siteData.owner}</div>
+            </div>
+        </Container>
     )
 }
 
 function DianaView(props) {
     return (
-        <Container id="diana-view" className="view-root">
+        <Container id="diana-view" className="view-root" fluid>
             <Header />
             <div className="mobile-only">
                 <MyGallery />
                 <MyName />
                 <ContactMe contacts={props.data.contacts} />
                 <MyDetails data={props.data} />
-                <MyWork work={props.data.work} />
+                <MyWork work={props.data.work} skills={props.data.skills} />
                 <MySkills skills={props.data.skills} />
             </div>
             <Row className="laptop-only">
@@ -218,7 +277,7 @@ function DianaView(props) {
             </Row>
             <Row className="laptop-only">
                 <Col md={12} lg={3}><MySkills skills={props.data.skills} /></Col>
-                <Col md={12} lg={9}><MyWork work={props.data.work} /></Col>
+                <Col md={12} lg={6}><MyWork work={props.data.work} skills={props.data.skills} /></Col>
             </Row>
             <Footer />
         </Container>

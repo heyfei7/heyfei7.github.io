@@ -52,9 +52,20 @@
     cursor: pointer;
 }
 
-#view-toggle {
+.display-none {
+    display: none;
+}
+
+/* Sticky Buttons */
+
+#sticky-buttons {
     z-index: 2;
     position: fixed;
     bottom: 10px;
     right: 10px;
+}
+
+#scroll-top {
+    border-radius: 100%;
+    margin-right: 5px;
 }
