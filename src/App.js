@@ -1,50 +1,96 @@
 import './App.css';
+import { getJSON, getText } from './common/util';
+
+// React
+import { animateScroll as scroll } from "react-scroll";
 
 // Views
-import { getData } from './common/util';
-import DefaultView from "./views/default/Default"
-import FiveStarsView from "./views/five-stars/FiveStars"
+import OrangeStoreView from "./views/orange-store/OrangeStore"
+import DianaView from "./views/diana/Diana"
 
 // React-Bootstrap
 import React, { useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { ArrowBarUp } from 'react-bootstrap-icons';
+import { Button, ButtonGroup } from 'react-bootstrap';
+
+var views = {
+  "orange-store": { name: "Orange Store" },
+  "diana": { name: "Diana" }
+}
 
 function ViewToggle(props) {
   return (
-    <Dropdown >
+    <Dropdown drop="up" id="view-toggle">
       <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-        View
+        Change Design
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={() => props.setView("default")}>Default</Dropdown.Item>
-        <Dropdown.Item onClick={() => props.setView("five-stars")}>Five Stars</Dropdown.Item>
+        {
+          Object.entries(views).map(([key, view]) => {
+            return (
+              <Dropdown.Item
+                key={key}
+                active={props.view == key}
+                href={"#" + key}>
+                {view.name}
+              </Dropdown.Item>
+            )
+          })
+        }
       </Dropdown.Menu>
     </Dropdown>
   )
 }
 
+function ScrollTop(props) {
+  const [show, setShow] = useState(false)
+  window.addEventListener("scroll", () => { setShow(window.pageYOffset > 200); });
+
+  return (
+    <Button id="scroll-top"
+      className={"mobile-only" + (show ? "" : " display-none")}
+      onClick={() => { scroll.scrollToTop(); }}>
+      <ArrowBarUp />
+    </Button>
+  )
+}
+
 function App() {
-  const [view, setView] = useState("five-stars");
+
+  const getHash = () => {
+    const href = window.location.href;
+    return href.substr(href.indexOf("#") + 1);
+  }
+  const [view, setView] = useState(getHash());
+  window.addEventListener("hashchange", () => { setView(getHash()); });
+
   const [data, setData] = useState({});
-  const getAllData = async () => {
-    getData("contacts.json", (contacts) => {
-      getData("experience.json", (exp) => {
-        getData("skills.json", (skills) => {
-          setData(Object.assign(contacts, exp, skills));
+  const getData = async () => {
+    getJSON("contacts.json", (contacts) => {
+      getJSON("experience.json", (exp) => {
+        getJSON("skills.json", (skills) => {
+          getText("aboutme.txt", (aboutme) => {
+            skills.skills.sort((a, b) => { return b.level - a.level });
+            setData(Object.assign(contacts, exp, skills, { aboutme: aboutme }));
+          })
         })
       })
     })
   }
+  useEffect(() => { getData(); }, []);
 
-  useEffect(() => { getAllData(); }, []);
   return (
-    <Container className="p-3">
+    <div>
+      <ButtonGroup id="sticky-buttons">
+        {window.pageYOffset > 100 && <ScrollTop />}
+        <ViewToggle view={view} />
+      </ButtonGroup>
       {
-        (view == "default" && <DefaultView data={data} />) ||
-        (view == "five-stars" && <FiveStarsView data={data} />)
+        (view == "orange-store" && <OrangeStoreView data={data} />) ||
+        (<DianaView data={data} />)
       }
-    </Container>
+    </div>
   );
 }
 

@@ -1,9 +1,56 @@
 {
-    "experience": [
+    "work": [
+        {
+            "company": "Elekta",
+            "title": "Software Developer",
+            "startTime": "May 2020",
+            "endTime": "August 2020",
+            "icon": "icon.jpeg",
+            "description": [
+                "blah",
+                "blah",
+                "blah"
+            ],
+            "stack": [
+                "Java",
+                "Git",
+                "SVN",
+                "Bash",
+                "Windows"
+            ]
+        },
         {
             "company": "Workflow International",
             "title": "Software Developer",
-            "time": "May 2018 - August 2018"
+            "startTime": "May 2018",
+            "endTime": "August 2018",
+            "icon": "icon.jpeg",
+            "description": [
+                "blah",
+                "blah",
+                "blah"
+            ],
+            "stack": [
+                "HTML",
+                "CSS",
+                "JavaScript",
+                "Bootstrap",
+                "Windows",
+                "SQL Server",
+                "PHP"
+            ]
+        }
+    ],
+    "publications": [
+        {
+            "title": "blah",
+            "publisher": "hm",
+            "role": "Researcher"
+        },
+        {
+            "title": "Book of Lost Magicka",
+            "publisher": "hm",
+            "role": "Contributor"
         }
     ]
 }
