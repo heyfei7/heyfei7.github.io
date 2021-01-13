@@ -1,0 +1,68 @@
+#diana-view {
+    --primary-color: #2D3047;
+    --secondary-color: #E0A458;
+    --third-color: #419D78;
+    --fourth-color: #FFDBB5;
+    --fifth-color: #7A9CC6;
+}
+
+#diana-view .primary-bg {
+    background-color: var(--primary-color);
+}
+
+#diana-view .btn.secondary-bg {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+#diana-view .btn.secondary-bg:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+/* Gallery */
+
+#diana-view .gallery {
+    text-align: center;
+}
+
+#diana-view .gallery .gallery-preview-image {
+    height: 35px;
+    margin: 5px;
+    opacity: 0.5;
+}
+
+#diana-view .gallery .gallery-preview-image:hover {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 10px var(--secondary-color);
+    opacity: 1;
+}
+
+#diana-view .gallery .gallery-preview-image.active {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 10px var(--secondary-color);
+    opacity: 1;
+}
+
+/* Stars */
+
+.star-container {
+    color: var(--third-color);
+}
+
+
+/* Responsive Screeen Size */
+
+@media (max-width: 750px) {
+    #diana-view .gallery .gallery-image {
+        height: 250px;
+    }
+}
+
+@media (min-width: 750px) {
+    #diana-view .gallery .gallery-image {
+        width: 250px;
+    }
+}

@@ -1,16 +1,38 @@
 // React-Bootstrap
 import { Envelope, Github, Linkedin, TelephoneFill } from 'react-bootstrap-icons';
+import $ from 'jquery'
 
-async function getData(filename, setData) {
-    const filepath = "/data/" + filename;
-    fetch(filepath, {
+async function getJSON(filename, setData) {
+    fetch("/data/" + filename, {
         headers: {
             "Content-Type": "application/json",
             'Accept': "application/json"
         }
-    }).then(function (response) {
+    }).then((response) => {
         return response.json();
     }).then(setData);
+}
+
+async function getText(filename, setData) {
+    fetch("/data/" + filename, {
+        headers: {
+            "Content-Type": "text/plain",
+            'Accept': "text/plain"
+        }
+    }).then((response) => {
+        response.text().then(setData);
+    });
+}
+
+async function getHTML(filename, setData) {
+    fetch("/docs/" + filename, {
+        headers: {
+            "Content-Type": "text/html",
+            'Accept': "text/html"
+        }
+    }).then((response) => {
+        response.text().then(setData);
+    });
 }
 
 function getIcon(name) {
@@ -23,9 +45,13 @@ function getIcon(name) {
     }
 }
 
-var views = [
-    { key: "default", name: "Default" },
-    { key: "five-stars", name: "Five Stars" }
-]
+function getImageSource(filename) {
+    return process.env.PUBLIC_URL + "/images/" + filename;
+}
 
-export { getData, getIcon, views };
+function getBootstrapDeviceSize() {
+    return $('#users-device-size').find('div:visible').first().attr('id');
+}
+
+
+export { getJSON, getText, getHTML, getIcon, getImageSource, getBootstrapDeviceSize };
