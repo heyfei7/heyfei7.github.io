@@ -1,7 +1,7 @@
 import { version } from "../../package.json"
 
 // React-Bootstrap
-import { Envelope, Github, Linkedin, TelephoneFill } from 'react-bootstrap-icons';
+import { ClipboardData, CpuFill, Envelope, Github, LaptopFill, Linkedin, DisplayFill, PlusCircleFill, TelephoneFill } from 'react-bootstrap-icons';
 import $ from 'jquery'
 
 async function getJSON(filename, setData) {
@@ -38,11 +38,16 @@ async function getHTML(filename, setData) {
 }
 
 function getIcon(name) {
-    switch (name) {
-        case "Envelope": return <Envelope />; break;
-        case "TelephoneFill": return <TelephoneFill />; break;
-        case "Linkedin": return <Linkedin />; break;
-        case "Github": return <Github />; break;
+    switch (name.toLowerCase()) {
+        case "envelope": return <Envelope />; break;
+        case "telephonefill": return <TelephoneFill />; break;
+        case "linkedin": return <Linkedin />; break;
+        case "github": return <Github />; break;
+        case "cpufill": return <CpuFill />; break;
+        case "laptopfill": return <LaptopFill />; break;
+        case "displayfill": return <DisplayFill />; break;
+        case "clipboarddata": return <ClipboardData />; break;
+        case "pluscirclefill": return <PlusCircleFill />; break;
         default: console.error("No such icon:", name); break;
     }
 }
@@ -61,4 +66,22 @@ const siteData = {
     owner: "Fei Dong"
 }
 
-export { getJSON, getText, getHTML, getIcon, getImageSource, getBootstrapDeviceSize, siteData };
+const skillLevels = {
+    3: "Familiar",
+    4: "Proficient",
+    5: "Expert"
+}
+
+const skillTypes = {
+    "frontend": { name: "Front-End", icon: "DisplayFill" },
+    "backend": { name: "Back-End", icon: "LaptopFill" },
+    "database": { name: "Database", icon: "ClipboardData" },
+    "os": { name: "OS", icon: "CpuFill" },
+    "other": { name: "Other", icon: "PlusCircleFill" }
+}
+
+export {
+    getJSON, getText, getHTML, getIcon,
+    getImageSource, getBootstrapDeviceSize,
+    siteData, skillLevels, skillTypes
+};

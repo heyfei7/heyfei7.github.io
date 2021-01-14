@@ -74,6 +74,11 @@
             "name": "Linux",
             "type": "os",
             "level": 5
+        },
+        {
+            "name": "Git",
+            "type": "other",
+            "level": 5
         }
     ]
 }

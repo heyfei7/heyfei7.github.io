@@ -5,18 +5,17 @@ import { getJSON, getText } from './common/util';
 import { animateScroll as scroll } from "react-scroll";
 
 // Views
-import OrangeStoreView from "./views/orange-store/OrangeStore"
 import DianaView from "./views/diana/Diana"
 
 // React-Bootstrap
 import React, { useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { ArrowBarUp } from 'react-bootstrap-icons';
+import { ArrowBarUp, StarFill } from 'react-bootstrap-icons';
 import { Button, ButtonGroup } from 'react-bootstrap';
 
 var views = {
-  "orange-store": { name: "Orange Store" },
-  "diana": { name: "Diana" }
+  "diana": { name: "Diana" },
+  "starry-night": { name: "Starry Night", mobile: false }
 }
 
 function ViewToggle(props) {
@@ -56,7 +55,16 @@ function ScrollTop(props) {
   )
 }
 
+function LoadingScreen(props) {
+  return (
+    <div id="loading-screen">
+      <div id="loading-star"><StarFill /></div>
+    </div>
+  )
+}
+
 function App() {
+  const [loading, setLoading] = useState(true);
 
   const getHash = () => {
     const href = window.location.href;
@@ -73,6 +81,7 @@ function App() {
           getText("aboutme.txt", (aboutme) => {
             skills.skills.sort((a, b) => { return b.level - a.level });
             setData(Object.assign(contacts, exp, skills, { aboutme: aboutme }));
+            setLoading(false);
           })
         })
       })
@@ -81,16 +90,15 @@ function App() {
   useEffect(() => { getData(); }, []);
 
   return (
-    <div>
+    <>
+      {loading && <LoadingScreen />}
       <ButtonGroup id="sticky-buttons">
         {window.pageYOffset > 100 && <ScrollTop />}
         <ViewToggle view={view} />
       </ButtonGroup>
-      {
-        (view == "orange-store" && <OrangeStoreView data={data} />) ||
-        (<DianaView data={data} />)
-      }
-    </div>
+      {((view == "diana" && <DianaView data={data} />) ||
+        (<DianaView data={data} />))}
+    </>
   );
 }
 
