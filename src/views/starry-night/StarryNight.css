@@ -1,0 +1,65 @@
+#starry-night-view {
+    padding: 0px;
+    margin: 0px;
+}
+
+#starry-night {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: -1;
+    --lightest-color: #2b3b41;
+    --light-color: #13132d;
+    --dark-color: #0a001e;
+    --darkest-color: #070016;
+    background-image: linear-gradient( var(--darkest-color), var(--dark-color), var(--light-color), var(--lightest-color));
+}
+
+#starry-night-controls {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    width: 200px;
+    font-size: 50%;
+}
+
+/* Twinkle Animation*/
+
+#starry-night.twinkle .star.twinkle1 {
+    animation: twinkle-star1 linear 1s infinite;
+}
+
+#starry-night.twinkle .star.twinkle2 {
+    animation: twinkle-star2 linear 1s infinite;
+}
+
+@keyframes twinkle-star1 {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes twinkle-star2 {
+    0% {
+        transform: scale(0.5);
+    }
+    50% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.5);
+    }
+}
+
+/* Hover Spin */
+
+#starry-night .star.spin {}
+
+#starry-night .star.spin:hover {}

@@ -1,5 +1,6 @@
 import "./Diana.css"
-import { getImageSource, getIcon, siteData, skillLevels, skillTypes } from '../../common/util'
+import { getImageSource, getIcon } from '../../common/util'
+import { siteData, skillLevels, skillTypes } from '../../common/data'
 
 // React
 import { useState } from 'react';

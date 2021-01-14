@@ -1,5 +1,3 @@
-import { version } from "../../package.json"
-
 // React-Bootstrap
 import { ClipboardData, CpuFill, Envelope, Github, LaptopFill, Linkedin, DisplayFill, PlusCircleFill, TelephoneFill } from 'react-bootstrap-icons';
 import $ from 'jquery'
@@ -60,28 +58,9 @@ function getBootstrapDeviceSize() {
     return $('#users-device-size').find('div:visible').first().attr('id');
 }
 
-const siteData = {
-    version: version,
-    copyright: "Copyright 2021",
-    owner: "Fei Dong"
-}
 
-const skillLevels = {
-    3: "Familiar",
-    4: "Proficient",
-    5: "Expert"
-}
-
-const skillTypes = {
-    "frontend": { name: "Front-End", icon: "DisplayFill" },
-    "backend": { name: "Back-End", icon: "LaptopFill" },
-    "database": { name: "Database", icon: "ClipboardData" },
-    "os": { name: "OS", icon: "CpuFill" },
-    "other": { name: "Other", icon: "PlusCircleFill" }
-}
 
 export {
     getJSON, getText, getHTML, getIcon,
-    getImageSource, getBootstrapDeviceSize,
-    siteData, skillLevels, skillTypes
+    getImageSource, getBootstrapDeviceSize
 };

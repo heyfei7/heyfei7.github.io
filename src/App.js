@@ -5,6 +5,7 @@ import { getJSON, getText } from './common/util';
 import { animateScroll as scroll } from "react-scroll";
 
 // Views
+import StarryNightView from "./views/starry-night/StarryNight"
 import DianaView from "./views/diana/Diana"
 
 // React-Bootstrap
@@ -97,7 +98,7 @@ function App() {
         <ViewToggle view={view} />
       </ButtonGroup>
       {((view == "diana" && <DianaView data={data} />) ||
-        (<DianaView data={data} />))}
+        (<StarryNightView data={data} />))}
     </>
   );
 }
