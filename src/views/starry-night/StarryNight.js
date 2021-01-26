@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { Link } from "react-scroll";
 
 // React Bootstrap
-import { Row, Col, Card, Button, Container } from 'react-bootstrap';
+import { Row, Col, Card, Button, Container, ButtonGroup } from 'react-bootstrap';
 import { Sliders, StarFill } from 'react-bootstrap-icons';
 // import Container from 'react-bootstrap/Container';
 
@@ -132,9 +132,12 @@ class StarryNight extends React.Component {
 }
 
 function StarryNightControl(props) {
-    const [form, _setForm] = useState(props.state);
+    const [form, _setForm] = useState(props.default);
     const setForm = (key, value) => {
         _setForm((prevState) => Object.assign({}, prevState, ({ [key]: value })));
+    }
+    const resetForm = () => {
+        _setForm(props.default);
     }
 
     console.log("form", form);
@@ -202,12 +205,23 @@ function StarryNightControl(props) {
                 {Object.keys(controls).map((key) => <ControlRow key={key} name={key} />)}
                 <Row>
                     <Col>
-                        <Button
-                            variant="primary"
-                            size="sm"
-                            onClick={() => { props.setState(form) }}>
-                            Submit!
-                        </Button>
+                        <ButtonGroup>
+                            <Button
+                                variant="primary"
+                                size="sm"
+                                onClick={() => { props.setState(form) }}>
+                                Submit
+                            </Button>
+                            <Button
+                                variant="primary"
+                                size="sm"
+                                onClick={() => {
+                                    resetForm();
+                                    props.setState(props.default);
+                                }}>
+                                Reset
+                            </Button>
+                        </ButtonGroup>
                     </Col>
                 </Row>
             </Card.Body>
@@ -227,7 +241,8 @@ function StarryNightView(props) {
         });
     }
 
-    const [state, setState] = useState(getDefaultControl());
+    const defaultState = getDefaultControl();
+    const [state, setState] = useState(defaultState);
 
     /*
     window.onresize = function () {
@@ -242,7 +257,9 @@ function StarryNightView(props) {
     return (
         <Container id="starry-night-view" className="view-root" fluid>
             <StarryNight config={state} />
-            <StarryNightControl state={state} setState={setState} />
+            <StarryNightControl
+                default={defaultState}
+                setState={setState} />
         </Container>
     )
 }
