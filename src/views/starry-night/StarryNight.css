@@ -1,9 +1,9 @@
-#starry-night-view {
-    padding: 0px;
-    margin: 0px;
-}
+/* Starry Night */
 
 #starry-night {
+    position: fixed;
+    left: 0;
+    top: 0;
     padding: 0;
     margin: 0;
     height: 100vh;
@@ -15,16 +15,6 @@
     --darkest-color: #070016;
     background-image: linear-gradient( var(--darkest-color), var(--dark-color), var(--light-color), var(--lightest-color));
 }
-
-#starry-night-controls {
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
-    width: 200px;
-    font-size: 50%;
-}
-
-/* Twinkle Animation*/
 
 #starry-night.twinkle .star.twinkle1 {
     animation: twinkle-star1 linear 1s infinite;
@@ -57,9 +47,3 @@
         transform: scale(0.5);
     }
 }
-
-/* Hover Spin */
-
-#starry-night .star.spin {}
-
-#starry-night .star.spin:hover {}

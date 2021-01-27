@@ -1,62 +1,37 @@
 import './App.css';
 import { getJSON, getText } from './common/util';
+import StarryNight, { StarryNightControl } from "./views/starry-night/StarryNight"
+import Portfolio from "./views/portfolio/Portfolio";
 
 // React
+import React, { useEffect, useState } from 'react';
+import { Button, ButtonGroup, Container, Overlay, OverlayTrigger, Popover, PopoverTitle, PopoverContent } from 'react-bootstrap';
+import { ArrowBarUp, StarFill, GearFill } from 'react-bootstrap-icons';
 import { animateScroll as scroll } from "react-scroll";
 
-// Views
-import StarryNightView from "./views/starry-night/StarryNight"
-import DianaView from "./views/diana/Diana"
-
-// React-Bootstrap
-import React, { useEffect, useState } from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
-import { ArrowBarUp, StarFill } from 'react-bootstrap-icons';
-import { Button, ButtonGroup } from 'react-bootstrap';
-
-var views = {
-  "diana": { name: "Diana" },
-  "starry-night": { name: "Starry Night", mobile: false }
-}
-
-function ViewToggle(props) {
-  return (
-    <Dropdown drop="up" id="view-toggle">
-      <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-        Change Design
-      </Dropdown.Toggle>
-      <Dropdown.Menu>
-        {
-          Object.entries(views).map(([key, view]) => {
-            return (
-              <Dropdown.Item
-                key={key}
-                active={props.view == key}
-                href={"#" + key}>
-                {view.name}
-              </Dropdown.Item>
-            )
-          })
-        }
-      </Dropdown.Menu>
-    </Dropdown>
-  )
-}
-
-function ScrollTop(props) {
+function ScrollTop() {
   const [show, setShow] = useState(false)
-  window.addEventListener("scroll", () => { setShow(window.pageYOffset > 200); });
+  const handleScroll = () => {
+    setShow(window.pageYOffset > 200);
+  }
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
 
   return (
-    <Button id="scroll-top"
-      className={"mobile-only" + (show ? "" : " display-none")}
+    <Button
+      id="scroll-top"
+      className={(show ? "" : " display-none")}
       onClick={() => { scroll.scrollToTop(); }}>
       <ArrowBarUp />
     </Button>
   )
 }
 
-function LoadingScreen(props) {
+function LoadingScreen() {
   return (
     <div id="loading-screen">
       <div id="loading-star"><StarFill /></div>
@@ -66,13 +41,6 @@ function LoadingScreen(props) {
 
 function App() {
   const [loading, setLoading] = useState(true);
-
-  const getHash = () => {
-    const href = window.location.href;
-    return href.substr(href.indexOf("#") + 1);
-  }
-  const [view, setView] = useState(getHash());
-  window.addEventListener("hashchange", () => { setView(getHash()); });
 
   const [data, setData] = useState({});
   const getData = async () => {
@@ -90,15 +58,33 @@ function App() {
   }
   useEffect(() => { getData(); }, []);
 
+  const defaultState = StarryNightControl.getDefault();
+  const [state, setState] = useState(defaultState);
+
+  const SettingPopover = (
+    <Popover id="popover-basic">
+      <Popover.Content>
+        <StarryNightControl
+          default={defaultState}
+          onStateChange={(newState) => { setState(newState); }} />
+      </Popover.Content>
+    </Popover>
+  );
+
   return (
     <>
       {loading && <LoadingScreen />}
-      <ButtonGroup id="sticky-buttons">
-        {window.pageYOffset > 100 && <ScrollTop />}
-        <ViewToggle view={view} />
-      </ButtonGroup>
-      {((view == "diana" && <DianaView data={data} />) ||
-        (<StarryNightView data={data} />))}
+      {!loading &&
+        <Container className="view-root" fluid>
+          <StarryNight config={state} />
+          <div id="toolbar">
+            <ScrollTop />
+            <OverlayTrigger trigger="click" overlay={SettingPopover}>
+              <Button><GearFill /></Button>
+            </OverlayTrigger>
+          </div>
+          <Portfolio data={data} />
+        </Container>}
     </>
   );
 }
